@@ -6,6 +6,7 @@ const NASA_API_KEY = process.env.NASA_API_KEY;
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const CHANNEL_ID = process.env.CHANNEL_ID;
 
+// Create a new Discord client instance
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -34,7 +35,7 @@ const fetchAPOD = async () => {
     // Get the channel and send the APOD information
     const channel = client.channels.cache.get(CHANNEL_ID);
     if (channel) {
-      channel.send(md(title, explanation.trim(), url));
+      await channel.send(md(title, explanation.trim(), url));
     } else {
       console.error("Channel not found!");
     }
@@ -43,33 +44,17 @@ const fetchAPOD = async () => {
   }
 };
 
-const getTimeUntilNext8AM = () => {
-  const now = new Date();
-  const next8AM = new Date(now);
+exports.sendDailyAPOD = async (req, res) => {
+  try {
+    // Log in to Discord with your bot token
+    await client.login(DISCORD_TOKEN);
 
-  next8AM.setUTCHours(5, 0, 0, 0); // 5:00 UTC is 8:00 AM AST
+    // Fetch APOD and send it to the Discord channel
+    await fetchAPOD();
 
-  if (now > next8AM) {
-    next8AM.setDate(next8AM.getDate() + 1);
+    res.status(200).send("APOD sent successfully!");
+  } catch (error) {
+    console.error("Error sending APOD:", error);
+    res.status(500).send("Failed to send APOD.");
   }
-
-  return next8AM - now; // Time in milliseconds until next 8:00 AM
 };
-
-// Function to start the daily APOD fetch using setTimeout
-const startDailyAPODFetch = () => {
-  const timeUntilNext8AM = getTimeUntilNext8AM();
-
-  setTimeout(() => {
-    fetchAPOD();
-    setInterval(fetchAPOD, 24 * 60 * 60 * 1000);
-  }, timeUntilNext8AM);
-};
-
-// Log in to Discord with your bot token
-client.once("ready", () => {
-  console.log("The daily planets is online!");
-  startDailyAPODFetch()
-});
-
-client.login(DISCORD_TOKEN);
