@@ -48,7 +48,7 @@ Before setting up the bot, make sure you have:
 
    - Copy the ID of the Discord channel where you want the bot to send APOD information. You can get the channel ID by enabling Developer Mode in Discord and right-clicking on the channel.
    - Replace the placeholder `CHANNEL_ID` in `index.js` with the copied ID inside the `.env` file.
-4. **Replace the placeholders in `index.js`:**
+4. **Replace the placeholders in `.env`:**
 
    - `YOUR_DISCORD_BOT_TOKEN`: Replace this with your bot's token from the Discord Developer Portal.
    - `YOUR_CHANNEL_ID`: Replace this with the ID of the Discord channel.
