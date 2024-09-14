@@ -52,7 +52,7 @@ Before setting up the bot, make sure you have:
 
    - `YOUR_DISCORD_BOT_TOKEN`: Replace this with your bot's token from the Discord Developer Portal.
    - `YOUR_CHANNEL_ID`: Replace this with the ID of the Discord channel.
-   - `DEMO_KEY`: Replace this with your NASA API Key.
+   - `NASA_API_KEY`: Replace this with your NASA API Key.
 
 > Make a copy of the `.env.example` file to know what placeholders to replace!
 
